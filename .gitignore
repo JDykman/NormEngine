@@ -399,3 +399,48 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Build outputs
+build/
+*.exe
+*.dll
+*.dylib
+*.so
+
+# Generated files
+core/generated.odin
+*.generated
+
+# Launcher scripts
+run_cli.bat
+run_gui.bat
+run_cli.sh
+run_gui.sh
+
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# IDE files
+.vscode/settings.json
+.vs/
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
+Backup*/
+
+# Debug files
+*.pdb
+*.ilk
+*.obj
+*.o
+
+# Odin specific
+*.bin
+odin-debug

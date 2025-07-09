@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug CLI",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/windows_debug/NormEngine_cli.exe",
+            "args": ["build", "${input:filename}"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "Build CLI"
+        },
+        {
+            "name": "Debug GUI",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/windows_debug/NormEngine_gui.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "Build GUI"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "filename",
+            "description": "Enter filename to build",
+            "default": "examples/play_button.norm",
+            "type": "promptString"
+        }
+    ]
+}

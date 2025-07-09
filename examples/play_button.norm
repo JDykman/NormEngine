@@ -1,0 +1,6 @@
+/// This is a button for pressing
+Component playButton {
+    type: Button,
+    style: [Primary],
+    onClick: playButtonHandler
+}
