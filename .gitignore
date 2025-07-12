@@ -18,7 +18,8 @@ odin-debug
 *.o
 
 # Build directories
-build/
+build/windows_debug
+build/windows_release
 bin/
 debug/
 release/
