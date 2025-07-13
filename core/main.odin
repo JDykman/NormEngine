@@ -41,13 +41,16 @@ build_file :: proc(filepath: string) -> Build_Result {
     content_str := string(content)
     
     // 1. Tokenize
+    fmt.println("Tokenizing")
     tokens := tokenize(content_str)
     defer delete(tokens)
     
     // 2. Parse
-    ast := parse(tokens)
+    fmt.println("Parsing")
+    ast := parse(tokens, filepath)
     
     // 3. Generate output
+    fmt.println("Generating")
     output := emit(ast)
     
     // Write output file

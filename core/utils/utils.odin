@@ -106,13 +106,14 @@ fire :: proc(cmd: ..string) -> os2.Error {
 		fmt.eprintln("Error:", start_err) 
 		return start_err
 	}
-
+	
 	_, wait_err := os2.process_wait(process)
+	
 	if wait_err != nil {
 		fmt.eprintln("Error:", wait_err) 
 		return wait_err
 	}
-
+	
 	return nil
 }
 

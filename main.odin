@@ -48,7 +48,8 @@ run_cli :: proc() {
         
         command := args[0]
         
-        // Handle commands
+        // Handle commands                utils.fire("bash", "-c", fmt.tprintf("cd %v && ./%v%v.exe", out_dir, EXE_NAME, exe_suffix))
+
         switch command {
             case "exit", "quit":
                 fmt.println("Goodbye!")

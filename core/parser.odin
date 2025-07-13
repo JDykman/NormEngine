@@ -1,5 +1,7 @@
 package NormEngineCore
 
+import "core:fmt"
+import "core:os"
 // TODO: Attach metadata to parsed nodes for things like:
 // - Source location (line number, filename)
 // - Doc-comments (///) as a field on Component
@@ -25,7 +27,7 @@ init_symbol_table :: proc() -> SymbolTable {
     }
 }
 
-parse :: proc(tokens: []Token) -> AST_Node {
+parse :: proc(tokens: []Token, filepath: string) -> AST_Node {
     root := AST_Node{
         type = .COMPONENT,
         name = "root",
@@ -36,10 +38,29 @@ parse :: proc(tokens: []Token) -> AST_Node {
     // Basic parsing logic - expand as needed
     for token in tokens {
         if token.type == .KEYWORD && token.value == "Component" {
-            // Parse component
-            // This is a placeholder - implement proper parsing
+            tok := AST_Node{
+                type == .COMPONENT,
+                name == token.value,
+                properties = get_values(token, filepath),
+            }
+            root.children[1] = tok
         }
     }
     
+    fmt.println(root)
     return root
+}
+
+get_values :: proc(token: Token, filepath: string) -> map[string]string{
+    content, read_ok := os.read_entire_file(filepath)
+    lines := strings.split(content, "\n")
+
+    for line, lines in content{
+        if strings.has_prefix(strings.trim_space(line), "Component") {
+            // Begin building component
+            
+        }
+    }
+
+    return content
 }

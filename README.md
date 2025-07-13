@@ -39,6 +39,7 @@
    - [ ] Optimize performance
    - [ ] Implement a more robust build system
    - [ ] Add more comprehensive tests
+   - [ ] Create a language server (nls)
    - [ ] Implement the GUI layer
    - [ ] Add support for more complex UI components
    - [ ] Improve documentation and examples

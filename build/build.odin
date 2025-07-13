@@ -17,6 +17,7 @@ EXE_NAME :: "NormEngine"
 
 Target :: enum {
     windows,
+    linux,
     mac,
 }
 
@@ -46,10 +47,11 @@ main :: proc() {
     }
 
     // Determine target platform
-    assert(ODIN_OS == .Windows || ODIN_OS == .Darwin, "unsupported OS target")
+    assert(ODIN_OS == .Windows || ODIN_OS == .Darwin || ODIN_OS == .Linux, "unsupported OS target")
     target: Target
     #partial switch ODIN_OS {
         case .Windows: target = .windows
+        case .Linux: target = .linux
         case .Darwin: target = .mac
         case: {
             log.error("Unsupported os:", ODIN_OS)
@@ -78,6 +80,7 @@ main :: proc() {
         fprintln(f, "")
         fprintln(f, "Platform :: enum {")
         fprintln(f, "	windows,")
+        fprintln(f, "	linux,")
         fprintln(f, "	mac,")
         fprintln(f, "}")
         fprintln(f, tprintf("PLATFORM :: Platform.%v", target))
@@ -96,6 +99,7 @@ main :: proc() {
     exe_suffix := mode == .gui ? "_gui" : "_cli"
     switch target {
         case .windows: out_dir = fmt.tprintf("build/windows_debug")
+        case .linux: out_dir = fmt.tprintf("build/linux_debug")
         case .mac: out_dir = fmt.tprintf("build/mac_debug")
     }
 
@@ -138,6 +142,9 @@ main :: proc() {
             case .windows:
                 os.write_entire_file("run_cli.bat", transmute([]u8)cli_launcher)
                 os.write_entire_file("run_gui.bat", transmute([]u8)gui_launcher)
+            case .linux:
+                os.write_entire_file("run_cli.sh", transmute([]u8)cli_launcher)
+                os.write_entire_file("run_gui.sh", transmute([]u8)gui_launcher)
             case .mac:
                 cli_launcher = fmt.tprintf(
                     "#!/bin/bash\ncd %v\n./%v_cli.exe \"$@\"",
@@ -159,6 +166,8 @@ main :: proc() {
         switch target {
             case .windows:
                 utils.fire("cmd", "/c", fmt.tprintf("cd %v && %v%v.exe", out_dir, EXE_NAME, exe_suffix))
+            case .linux:
+                utils.fire("konsole", "/c", fmt.tprintf("cd %v && %v%v.AppImage", out_dir, EXE_NAME, exe_suffix))
             case .mac:
                 utils.fire("bash", "-c", fmt.tprintf("cd %v && ./%v%v.exe", out_dir, EXE_NAME, exe_suffix))
         }
