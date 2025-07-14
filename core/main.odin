@@ -4,6 +4,7 @@ import "core:fmt"
 import "core:os"
 import "core:strings"
 import "core:c"
+import utils "utils"
 
 // TODO - make a todo list idfk
 // 1. Implement error handling
@@ -41,16 +42,16 @@ build_file :: proc(filepath: string) -> Build_Result {
     content_str := string(content)
     
     // 1. Tokenize
-    fmt.println("Tokenizing")
+    utils.norm_print("Tokenizing", .INFO)
     tokens := tokenize(content_str)
     defer delete(tokens)
     
     // 2. Parse
-    fmt.println("Parsing")
+    utils.norm_print("Parsing", .INFO)
     ast := parse(tokens, filepath)
     
     // 3. Generate output
-    fmt.println("Generating")
+    utils.norm_print("Generating", .INFO)
     output := emit(ast)
     
     // Write output file
@@ -59,7 +60,7 @@ build_file :: proc(filepath: string) -> Build_Result {
     if !write_ok {
         return Build_Result{
             success = false,
-            error = fmt.tprintf("Failed to write output file: %s", output_path),
+            error = fmt.tprintf("\033[31mFailed to write output file\033[0m: %s", output_path),
         }
     }
     

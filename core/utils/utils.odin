@@ -337,3 +337,22 @@ seconds_since_init :: proc() -> f64 {
 	}
 	return duration_seconds(since(init_time))
 }
+
+Norm_Cli_Print_Type :: enum{
+	DEBUG,
+	INFO,
+	WARNING,
+	ERROR
+}
+// args: ..any, sep := " ", flush := true
+norm_print :: proc(str:string, type: Norm_Cli_Print_Type){
+	prefix := "[norm]"
+	switch type{
+		case .ERROR:
+			fmt.println("\033[31m", prefix, "\033[0m", str)
+		case .WARNING:
+			fmt.println("\033[34m", prefix, "\033[0m", str)
+		case .DEBUG, .INFO:
+			fmt.println(prefix, str)
+	}
+}

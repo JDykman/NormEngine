@@ -6,6 +6,7 @@ Token_Type :: enum {
     OPERATOR,
     LITERAL,
     COMMENT,
+    END_COMP,
     EOF,
 }
 
