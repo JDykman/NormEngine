@@ -33,7 +33,7 @@ init_symbol_table :: proc() -> SymbolTable {
 //TODO: Handle subcomponents -> children - i.e. pauseButton.lite should be a child of pauseButton
 parse :: proc(tokens: []Token, filepath: string) -> AST_Node {
     root := AST_Node{
-        type = .COMPONENT,
+        type = .ROOT,
         name = "root",
         properties = make(map[string]string),
         children = make([]AST_Node, 0),
@@ -41,12 +41,12 @@ parse :: proc(tokens: []Token, filepath: string) -> AST_Node {
 
     // Basic parsing logic - expand as needed
     for token in tokens {
-        if token.type == .LITERAL {
-            fmt.println(token.value)   
+        if token.type == .COMMENT {
+            utils.norm_print(.DEBUG, token.value)   
         }
     }
     
-    fmt.println(root)
+    utils.norm_print(.INFO, "%v", root)
     return root
 }
 
@@ -64,15 +64,14 @@ get_values :: proc(token: Token, filepath: string) -> map[string]string{
     str_content := string(content) 
     lines := strings.split(str_content, "\n")
    
-    fmt.println("Token: ", token)
-    fmt.println("lines: ", lines)
+    utils.norm_print(.INFO, "Token: %v", token)
+    utils.norm_print(.INFO, "lines: %v", lines)
     out := make(map[string]string)
     defer delete(out)
 
     comp_start := token.line
     comp_end := token
-
-    fmt.println("Starting property fetch at line: ", token.line)
+    utils.norm_print(.INFO, "Starting property fetch at line: %v", token.line)
 
 
 

@@ -22,6 +22,7 @@ emit_node :: proc(builder: ^strings.Builder, node: AST_Node, indent: int) {
     }
     
     switch node.type {
+        case .ROOT:
         case .COMPONENT:
             strings.write_string(builder, fmt.tprintf("// Generated component: %s\n", node.name))
         case .PROPERTY:

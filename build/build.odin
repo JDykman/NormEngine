@@ -59,7 +59,7 @@ main :: proc() {
         }
     }
     
-    fmt.println("Building for", target, "in", mode, "mode")
+    utils.norm_print(.INFO, "Building for %v in %v mode", target, mode,)
 
     // Generate the generated.odin file
     {
@@ -162,7 +162,7 @@ main :: proc() {
     }
     
     if should_run {
-        fmt.println("Running executable...")
+        utils.norm_print(.INFO, "Running executable...")
         switch target {
             case .windows:
                 utils.fire("cmd", "/c", fmt.tprintf("cd %v && %v%v.exe", out_dir, EXE_NAME, exe_suffix))
@@ -173,7 +173,7 @@ main :: proc() {
         }
     }
 
-    fmt.println("DONE in", time.diff(start_time, time.now()))
+    utils.norm_print(.INFO, "DONE in %v", time.diff(start_time, time.now()))
 }
 
 

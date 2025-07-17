@@ -344,15 +344,27 @@ Norm_Cli_Print_Type :: enum{
 	WARNING,
 	ERROR
 }
+
+//Text Colors
+TEXT_RED    :: "\033[31m"
+TEXT_GREEN  :: "\033[32m"
+TEXT_YELLOW :: "\033[33m"
+TEXT_BLUE   :: "\033[34m"
+TEXT_WHITE  :: "\033[0m "
+
 // args: ..any, sep := " ", flush := true
-norm_print :: proc(str:string, type: Norm_Cli_Print_Type){
-	prefix := "[norm]"
+norm_print :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true){
+	text_color : string
 	switch type{
-		case .ERROR:
-			fmt.println("\033[31m", prefix, "\033[0m", str)
+		case .DEBUG:
+			text_color = TEXT_BLUE
+		case .INFO:
+			text_color = TEXT_GREEN
 		case .WARNING:
-			fmt.println("\033[34m", prefix, "\033[0m", str)
-		case .DEBUG, .INFO:
-			fmt.println(prefix, str)
+			text_color = TEXT_YELLOW
+		case .ERROR:
+			text_color = TEXT_RED
 	}
+	fmt.printf("%v[norm]%v",text_color, TEXT_WHITE)
+	fmt.printfln(str, ..args)
 }

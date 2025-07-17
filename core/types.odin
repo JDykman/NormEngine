@@ -25,6 +25,7 @@ AST_Node :: struct {
 }
 
 Node_Type :: enum {
+    ROOT,
     COMPONENT,
     PROPERTY,
     COMMENT,

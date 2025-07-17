@@ -6,6 +6,7 @@ import "core:strings"
 import "core:bufio"
 import "core:c"
 import core "core"
+import "core/utils"
 
 main :: proc() {
     when core.BUILD_MODE == .gui {
@@ -67,9 +68,9 @@ run_cli :: proc() {
                 filepath := args[1]
                 result := core.build_file(filepath)
                 if result.success {
-                    fmt.println("[norm] Build successful:", result.output_path)
+                    utils.norm_print(.INFO, "Build successful: ", result.output_path)
                 } else {
-                    fmt.println("[norm] Build failed:", result.error)
+                    utils.norm_print(.ERROR, "Build failed:", result.error)
                 }
                 
             case "validate":
@@ -80,9 +81,9 @@ run_cli :: proc() {
                 
                 filepath := args[1]
                 if core.validate_file(filepath) {
-                    fmt.println("[norm] File is valid:", filepath)
+                    utils.norm_print(.INFO, "File is valid: %v", filepath)
                 } else {
-                    fmt.println("[norm] File is not valid:", filepath)
+                    utils.norm_print(.INFO, "File is not valid: %v", filepath)
                 }
                 
             case "info":
@@ -136,9 +137,9 @@ clear_screen :: proc() {
 }
 
 run_gui :: proc() {
-    fmt.println("[norm] Launching GUI...")
+    utils.norm_print(.INFO, "Launching GUI...")
     // GUI also uses core functionality
     // result := core.build_file(selected_file)
     // Display result in GUI
-    fmt.println("GUI mode not implemented yet")
+    utils.norm_print(.WARNING, "GUI mode not implemented yet")
 }
