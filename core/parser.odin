@@ -42,11 +42,11 @@ parse :: proc(tokens: []Token, filepath: string) -> AST_Node {
     // Basic parsing logic - expand as needed
     for token in tokens {
         if token.type == .COMMENT {
-            utils.norm_print(.DEBUG, token.value)   
+            utils.norm_println(.DEBUG, token.value)   
         }
     }
     
-    utils.norm_print(.INFO, "%v", root)
+    utils.norm_println(.DEBUG, "%v", root)
     return root
 }
 
@@ -64,14 +64,14 @@ get_values :: proc(token: Token, filepath: string) -> map[string]string{
     str_content := string(content) 
     lines := strings.split(str_content, "\n")
    
-    utils.norm_print(.INFO, "Token: %v", token)
-    utils.norm_print(.INFO, "lines: %v", lines)
+    utils.norm_println(.INFO, "Token: %v", token)
+    utils.norm_println(.INFO, "lines: %v", lines)
     out := make(map[string]string)
     defer delete(out)
 
     comp_start := token.line
     comp_end := token
-    utils.norm_print(.INFO, "Starting property fetch at line: %v", token.line)
+    utils.norm_println(.INFO, "Starting property fetch at line: %v", token.line)
 
 
 

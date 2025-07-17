@@ -19,7 +19,7 @@ Build_Result :: struct {
 }
 
 build_file :: proc(filepath: string) -> Build_Result {
-    utils.norm_print(.INFO, "Processing file:%v", filepath)
+    utils.norm_println(.INFO, "Processing file:%v", filepath)
     
     if !os.exists(filepath) {
         return Build_Result{
@@ -42,16 +42,16 @@ build_file :: proc(filepath: string) -> Build_Result {
     content_str := string(content)
     
     // 1. Tokenize
-    utils.norm_print(.INFO, "Tokenizing")
+    utils.norm_println(.INFO, "Tokenizing")
     tokens := tokenize(content_str)
     defer delete(tokens)
     
     // 2. Parse
-    utils.norm_print(.INFO, "Parsing")
+    utils.norm_println(.INFO, "Parsing")
     ast := parse(tokens, filepath)
     
     // 3. Generate output
-    utils.norm_print(.INFO, "Generating")
+    utils.norm_println(.INFO, "Generating")
     output := emit(ast)
     
     // Write output file

@@ -19,7 +19,7 @@ tokenize :: proc(content: string) -> []Token {
         line := strings.trim_suffix(line, "{")
         line = strings.trim_suffix(line, "}")
         
-        //utils.norm_print("ass", line)
+        //utils.norm_println("ass", line)
         if strings.has_prefix(strings.trim_space(line), "///") {
             append(&tokens, Token{
                 type = .COMMENT,
@@ -31,10 +31,10 @@ tokenize :: proc(content: string) -> []Token {
         
     }
 
-    utils.norm_print(.DEBUG, "Tokenized %v lines", len(tokens))
-    //utils.norm_print(tokens, .INFO)
+    utils.norm_println(.DEBUG, "Tokenized %v lines", len(tokens))
+    //utils.norm_println(tokens, .INFO)
     
     append(&tokens, Token{type = .EOF, line = len(lines), column = 1})
-    //utils.norm_print(.INFOtokens)
+    //utils.norm_println(.INFOtokens)
     return tokens[:]
 }

@@ -22,7 +22,7 @@ run_cli :: proc() {
     
     // Interactive CLI loop
     for {
-        fmt.print("norm> ")
+        utils.norm_print(.INFO, "%v> %v", utils.TEXT_GREEN, utils.TEXT_WHITE)
         
         // Read user input
         buf: [256]byte
@@ -61,29 +61,29 @@ run_cli :: proc() {
                 
             case "build":
                 if len(args) < 2 {
-                    utils.norm_print(.WARNING, "Usage: build <file>")
+                    utils.norm_println(.WARNING, "Usage: build <file>")
                     continue
                 }
                 
                 filepath := args[1]
                 result := core.build_file(filepath)
                 if result.success {
-                    utils.norm_print(.INFO, "Build successful: %v", result.output_path)
+                    utils.norm_println(.INFO, "Build successful: %v", result.output_path)
                 } else {
-                    utils.norm_print(.ERROR, "Build failed: %v", result.error)
+                    utils.norm_println(.ERROR, "Build failed: %v", result.error)
                 }
                 
             case "validate":
                 if len(args) < 2 {
-                    utils.norm_print(.WARNING, "Usage: validate <file>")
+                    utils.norm_println(.WARNING, "Usage: validate <file>")
                     continue
                 }
                 
                 filepath := args[1]
                 if core.validate_file(filepath) {
-                    utils.norm_print(.INFO, "File is valid: %v", filepath)
+                    utils.norm_println(.INFO, "File is valid: %v", filepath)
                 } else {
-                    utils.norm_print(.ERROR, "File is not valid: %v", filepath)
+                    utils.norm_println(.ERROR, "File is not valid: %v", filepath)
                 }
                 
             case "info":
@@ -93,14 +93,14 @@ run_cli :: proc() {
                 clear_screen()
                 
             case:
-                utils.norm_print(.WARNING, "Unknown command:", command)
-                utils.norm_print(.INFO, "Type 'help' for available commands")
+                utils.norm_println(.WARNING, "Unknown command:", command)
+                utils.norm_println(.INFO, "Type 'help' for available commands")
         }
     }
 }
 
 show_help :: proc() {
-    utils.norm_print(.INFO, ":)")
+    utils.norm_println(.INFO, ":)")
     fmt.println("Available commands:")
     fmt.println("  build <file>     - Build a .norm file")
     fmt.println("  validate <file>  - Validate a .norm file")
@@ -111,10 +111,10 @@ show_help :: proc() {
 }
 
 show_info :: proc() {
-    utils.norm_print(.INFO, "NormEngine CLI")
-    utils.norm_print(.INFO, "Platform:", core.PLATFORM)
-    utils.norm_print(.INFO, "Mode:", core.BUILD_MODE)
-    utils.norm_print(.INFO, "Supported extensions:", core.get_supported_extensions())
+    utils.norm_println(.INFO, "NormEngine CLI")
+    utils.norm_println(.INFO, "Platform:", core.PLATFORM)
+    utils.norm_println(.INFO, "Mode:", core.BUILD_MODE)
+    utils.norm_println(.INFO, "Supported extensions:", core.get_supported_extensions())
 }
 
 // Foreign import for system calls
@@ -138,9 +138,9 @@ clear_screen :: proc() {
 }
 
 run_gui :: proc() {
-    utils.norm_print(.INFO, "Launching GUI...")
+    utils.norm_println(.INFO, "Launching GUI...")
     // GUI also uses core functionality
     // result := core.build_file(selected_file)
     // Display result in GUI
-    utils.norm_print(.WARNING, "GUI mode not implemented yet")
+    utils.norm_println(.WARNING, "GUI mode not implemented yet")
 }

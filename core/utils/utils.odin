@@ -353,7 +353,7 @@ TEXT_BLUE   :: "\033[34m"
 TEXT_WHITE  :: "\033[0m "
 
 // args: ..any, sep := " ", flush := true
-norm_print :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true){
+norm_println :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true){
 	text_color : string
 	switch type{
 		case .DEBUG:
@@ -367,4 +367,20 @@ norm_print :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush :=
 	}
 	fmt.printf("%v[norm]%v",text_color, TEXT_WHITE)
 	fmt.printfln(str, ..args)
+}
+
+norm_print :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true){
+	text_color : string
+	switch type{
+		case .DEBUG:
+			text_color = TEXT_BLUE
+		case .INFO:
+			text_color = TEXT_GREEN
+		case .WARNING:
+			text_color = TEXT_YELLOW
+		case .ERROR:
+			text_color = TEXT_RED
+	}
+	fmt.printf("%v[norm]%v",text_color, TEXT_WHITE)
+	fmt.printf(str, ..args)
 }
