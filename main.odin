@@ -61,21 +61,21 @@ run_cli :: proc() {
                 
             case "build":
                 if len(args) < 2 {
-                    fmt.println("Usage: build <file>")
+                    utils.norm_print(.WARNING, "Usage: build <file>")
                     continue
                 }
                 
                 filepath := args[1]
                 result := core.build_file(filepath)
                 if result.success {
-                    utils.norm_print(.INFO, "Build successful: ", result.output_path)
+                    utils.norm_print(.INFO, "Build successful: %v", result.output_path)
                 } else {
-                    utils.norm_print(.ERROR, "Build failed:", result.error)
+                    utils.norm_print(.ERROR, "Build failed: %v", result.error)
                 }
                 
             case "validate":
                 if len(args) < 2 {
-                    fmt.println("Usage: validate <file>")
+                    utils.norm_print(.WARNING, "Usage: validate <file>")
                     continue
                 }
                 
@@ -83,7 +83,7 @@ run_cli :: proc() {
                 if core.validate_file(filepath) {
                     utils.norm_print(.INFO, "File is valid: %v", filepath)
                 } else {
-                    utils.norm_print(.INFO, "File is not valid: %v", filepath)
+                    utils.norm_print(.ERROR, "File is not valid: %v", filepath)
                 }
                 
             case "info":
@@ -93,13 +93,14 @@ run_cli :: proc() {
                 clear_screen()
                 
             case:
-                fmt.println("Unknown command:", command)
-                fmt.println("Type 'help' for available commands")
+                utils.norm_print(.WARNING, "Unknown command:", command)
+                utils.norm_print(.INFO, "Type 'help' for available commands")
         }
     }
 }
 
 show_help :: proc() {
+    utils.norm_print(.INFO, ":)")
     fmt.println("Available commands:")
     fmt.println("  build <file>     - Build a .norm file")
     fmt.println("  validate <file>  - Validate a .norm file")
@@ -110,10 +111,10 @@ show_help :: proc() {
 }
 
 show_info :: proc() {
-    fmt.println("NormEngine CLI")
-    fmt.println("Platform:", core.PLATFORM)
-    fmt.println("Mode:", core.BUILD_MODE)
-    fmt.println("Supported extensions:", core.get_supported_extensions())
+    utils.norm_print(.INFO, "NormEngine CLI")
+    utils.norm_print(.INFO, "Platform:", core.PLATFORM)
+    utils.norm_print(.INFO, "Mode:", core.BUILD_MODE)
+    utils.norm_print(.INFO, "Supported extensions:", core.get_supported_extensions())
 }
 
 // Foreign import for system calls

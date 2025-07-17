@@ -31,7 +31,7 @@ tokenize :: proc(content: string) -> []Token {
         
     }
 
-    utils.norm_print(.INFO, "Tokenized %v lines", len(tokens))
+    utils.norm_print(.DEBUG, "Tokenized %v lines", len(tokens))
     //utils.norm_print(tokens, .INFO)
     
     append(&tokens, Token{type = .EOF, line = len(lines), column = 1})
