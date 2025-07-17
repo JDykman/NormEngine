@@ -1,8 +1,6 @@
 package NormEngineCore
 
 import "core:strings"
-import "core:unicode"
-import "core:fmt"
 import "utils"
 
 /* 
@@ -16,8 +14,8 @@ tokenize :: proc(content: string) -> []Token {
     defer delete(lines)
     
     for line, line_num in lines {
-        line := strings.trim_suffix(line, "{")
-        line = strings.trim_suffix(line, "}")
+        strings.trim_suffix(line, "{")
+        strings.trim_suffix(line, "}")
         
         //utils.norm_println("ass", line)
         if strings.has_prefix(strings.trim_space(line), "///") {

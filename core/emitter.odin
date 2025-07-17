@@ -17,17 +17,17 @@ emit :: proc(ast: AST_Node) -> string {
 
 emit_node :: proc(builder: ^strings.Builder, node: AST_Node, indent: int) {
     // Add indentation
-    for i in 0..<indent {
-        strings.write_string(builder, "  ")
-    }
+    // for i in 0..<indent {
+    //     strings.write_string(builder, "  ")
+    // }
     
     switch node.type {
-        case .ROOT:
-        case .COMPONENT:
-            strings.write_string(builder, fmt.tprintf("// Generated component: %s\n", node.name))
-        case .PROPERTY:
-            strings.write_string(builder, fmt.tprintf("// Property: %s\n", node.name))
-        case .COMMENT:
+    case .ROOT:
+    case .COMPONENT:
+        strings.write_string(builder, fmt.tprintf("// Generated component: %s\n", node.name))
+    case .PROPERTY:
+        strings.write_string(builder, fmt.tprintf("// Property: %s\n", node.name))
+    case .COMMENT:
             strings.write_string(builder, fmt.tprintf("%s\n", node.name))
     }
     

@@ -1,9 +1,6 @@
 #+feature dynamic-literals
 package NormEngineCore
 
-import "core:fmt"
-import "core:os"
-import "core:strings"
 import utils "utils"
 // TODO: Attach metadata to parsed nodes for things like:
 // - Source location (line number, filename)
@@ -59,27 +56,28 @@ parse :: proc(tokens: []Token, filepath: string) -> AST_Node {
 
 
 //TODO: Remove?
-get_values :: proc(token: Token, filepath: string) -> map[string]string{
-    content, read_ok := os.read_entire_file(filepath)
-    str_content := string(content) 
-    lines := strings.split(str_content, "\n")
+// get_values :: proc(token: Token, filepath: string) -> map[string]string{
+//     content, read_ok := os.read_entire_file(filepath)
+
+//     str_content := string(content) 
+//     lines := strings.split(str_content, "\n")
    
-    utils.norm_println(.INFO, "Token: %v", token)
-    utils.norm_println(.INFO, "lines: %v", lines)
-    out := make(map[string]string)
-    defer delete(out)
+//     utils.norm_println(.INFO, "Token: %v", token)
+//     utils.norm_println(.INFO, "lines: %v", lines)
+//     out := make(map[string]string)
+//     defer delete(out)
 
-    comp_start := token.line
-    comp_end := token
-    utils.norm_println(.INFO, "Starting property fetch at line: %v", token.line)
+//     comp_start := token.line
+//     comp_end := token
+//     utils.norm_println(.INFO, "Starting property fetch at line: %v", token.line)
 
 
 
-    for line in lines{
-        if strings.has_prefix(strings.trim_space(line), "Component") {
-            // Begin building component
-            out["Component"] = "eg"
-        }
-    }
-    return out
-}
+//     for line in lines{
+//         if strings.has_prefix(strings.trim_space(line), "Component") {
+//             // Begin building component
+//             out["Component"] = "eg"
+//         }
+//     }
+//     return out
+// }
