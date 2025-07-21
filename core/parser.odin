@@ -13,11 +13,7 @@ import "core:strings"
 // This will help track declared component names, style definitions, and event handler references.
 // It will also prevent name collisions and assist with exporting and IDE integrations.
 
-Component :: struct {
-    name : string,
-    properties : []KeyWord,
-    parent : ^Component,
-}
+
 
 Components : map[string]^Component
 
@@ -42,11 +38,12 @@ parse :: proc(tokens: [dynamic]Token) -> AST_Node {
     }
     
     c : ^Component
+    _mode : Identifier_Mode
     defer free(c)
     // Basic parsing logic - expand as needed
     for token in tokens {
-        //utils.norm_println(.DEBUG, "%v: %v",token.type, token.value)   
-        if token.type == .IDENTIFIER {
+        if token.type == .IDENTIFIER && strings.has_prefix(strings.trim_space(token.value), "Component"){
+            _mode = c
             split_raw_vals := strings.split(strings.trim_space(token.value), " ") // Get each word
             // Assume the first word is the idenentifier, second is the value we want, and third is '}'
             // ["Component", "pauseButton.lite", "{"] -> ["pauseButton", "lite"]
@@ -64,9 +61,16 @@ parse :: proc(tokens: [dynamic]Token) -> AST_Node {
             } 
             delete(split_raw_vals)
             delete(split_vals)
-            // init_component(token.value)
-            //utils.norm_println(.DEBUG, "%v", split_vals)
+            continue
         }
+        if token.type == .COMMENT {
+            prop := Property{
+                .COMMENT,
+                token.value
+            }
+            append(c.properties, prop)
+        }
+
     }
     utils.norm_println(.DEBUG, "%v", root)
     return root

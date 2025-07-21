@@ -30,14 +30,44 @@ Node_Type :: enum {
     COMMENT,
 }
 
+Node :: struct {
+    name : string,
+    properties : [dynamic]Property,
+    parent : ^Node,
+}
+
+Component :: struct {
+    name : string,
+    properties : [dynamic]Property,
+    parent : ^Component,
+}
+
+Style :: struct {
+    name : string,
+    properties : [dynamic]Property,
+    parent : ^Style,
+}
+
+Property :: struct {
+    name : KeyWord,
+    value : any // TODO this should probably be replaced with something 
+}
+
+//Usage: if comp, ok := _mode.(^Component); ok{...}
+
+Identifier_Mode :: union {
+    ^Component,
+    ^Style,
+}
 
 KeyWord :: enum { 
     TYPE,
     STYLE,
     ONCLICK,
+    COMMENT,
 }
 
-KeyWords := [KeyWord]string {
+KeyWords := #partial [KeyWord]string {
     .TYPE = "type",
     .STYLE = "style",
     .ONCLICK = "onClick",
