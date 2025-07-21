@@ -48,7 +48,7 @@ build_file :: proc(filepath: string) -> Build_Result {
     
     // 2. Parse
     utils.norm_println(.INFO, "Parsing")
-    ast := parse(tokens, filepath)
+    ast := parse(tokens)
     
     // 3. Generate output
     //TODO this will eventually need to be replaced so that it works dynamically for each supported language
