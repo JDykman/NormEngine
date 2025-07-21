@@ -4,23 +4,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build CLI",
-            "type": "shell",
-            "command": "odin",
-            "args": ["run", "build", "-debug", "--", "cli"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": [],
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared"
-            }
-        },
-        {
             "label": "Build Hot Reload",
             "type": "shell",
             "windows": {
@@ -40,6 +23,23 @@
             },
         },
         {
+            "label": "Build CLI",
+            "type": "shell",
+            "command": "odin",
+            "args": ["run", "build", "-debug", "--", "cli"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
             "label": "Build GUI",
             "type": "shell",
             "command": "odin",
@@ -53,33 +53,5 @@
                 "panel": "shared"
             }
         },
-        {
-            "label": "Build and Run CLI",
-            "type": "shell",
-            "command": "odin",
-            "args": ["run", "build", "-debug", "--", "cli", "run"],
-            "group": "test",
-            "problemMatcher": [],
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared"
-            }
-        },
-        {
-            "label": "Build and Run GUI",
-            "type": "shell",
-            "command": "odin",
-            "args": ["run", "build", "-debug", "--", "gui", "run"],
-            "group": "test",
-            "problemMatcher": [],
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared"
-            }
-        }
     ]
 }

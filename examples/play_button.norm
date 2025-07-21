@@ -4,14 +4,14 @@ Component playButton {
     style: [Primary],
     onClick: playButtonHandler
 }
-/// This is a also button for pressing
+/// This is also a button for pressing
 Component pauseButton {
     type: Button,
     style: [Primary],
     onClick: pauseButtonHandler
 }
 
-/// This is a also button for pressing
+/// This is also also a button for pressing
 Component pauseButton.lite {
     type: Button,
     style: [Primary],

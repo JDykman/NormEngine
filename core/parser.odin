@@ -38,8 +38,8 @@ parse :: proc(tokens: []Token, filepath: string) -> AST_Node {
 
     // Basic parsing logic - expand as needed
     for token in tokens {
+        utils.norm_println(.DEBUG, "%v: %v",token.type, token.value)   
         if token.type == .COMMENT {
-            utils.norm_println(.DEBUG, token.value)   
         }
     }
     

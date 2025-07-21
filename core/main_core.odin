@@ -51,11 +51,13 @@ build_file :: proc(filepath: string) -> Build_Result {
     ast := parse(tokens, filepath)
     
     // 3. Generate output
+    //TODO this will eventually need to be replaced so that it works dynamically for each supported language
     utils.norm_println(.INFO, "Generating")
     output := emit(ast)
     
     // Write output file
     output_path, _ := strings.replace(filepath, ".norm", ".generated", -1)
+    defer(delete(output_path))
     write_ok := os.write_entire_file(output_path, transmute([]u8)output)
     if !write_ok {
         return Build_Result{

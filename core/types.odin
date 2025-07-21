@@ -4,7 +4,6 @@ Token_Type :: enum {
     IDENTIFIER,
     KEYWORD,
     OPERATOR,
-    LITERAL,
     COMMENT,
     END_COMP,
     EOF,
@@ -29,4 +28,19 @@ Node_Type :: enum {
     COMPONENT,
     PROPERTY,
     COMMENT,
+}
+
+Keywords := []string {
+    "type",
+    "style",
+    "onClick",
+}
+
+isKeyword :: proc(string_to_check: string) -> bool {
+	for i in Keywords{
+        if(string_to_check == i){
+            return true
+        }
+	}
+	return false
 }
