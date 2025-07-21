@@ -16,4 +16,5 @@ Component pauseButton.lite {
     type: Button,
     style: [Primary],
     onClick: pauseButtonHandler
+    inValidType : example
 }

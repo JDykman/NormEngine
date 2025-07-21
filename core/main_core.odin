@@ -77,10 +77,15 @@ validate_file :: proc(filepath: string) -> bool {
     return strings.has_suffix(filepath, ".norm")
 }
 
-supported_extensions: []string = {".norm"}
+supported_import_extensions: []string = {".norm"}
+supported_export_extensions: []string = {"N/A"}
 
-get_supported_extensions :: proc() -> []string {
-    return supported_extensions
+get_import_supported_extensions :: proc() -> []string {
+    return supported_import_extensions
+}
+
+get_export_supported_extensions :: proc() -> []string {
+    return supported_export_extensions
 }
 
 // Add this if os.system is not available

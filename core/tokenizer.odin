@@ -6,7 +6,7 @@ import "utils"
 /* 
     Rip everything out the file and create a dynamic array of tokens ([dynamic]Token)
 */
-tokenize :: proc(content: string) -> []Token {
+tokenize :: proc(content: string) -> [dynamic]Token {
     tokens := make([dynamic]Token)
     
     lines := strings.split(content, "\n")
@@ -16,7 +16,6 @@ tokenize :: proc(content: string) -> []Token {
     for &line, line_num in lines {
         line = strings.trim_suffix(line, "{")
         
-        //utils.norm_println("ass", line)
         if strings.has_prefix(strings.trim_space(line), "///") {
             append(&tokens, Token{
                 type = .COMMENT,
@@ -39,7 +38,7 @@ tokenize :: proc(content: string) -> []Token {
                 column = 1,
             })
         }else { // Property
-            for k in Keywords{
+            for k in KeyWords{
                 if strings.has_prefix(strings.trim_space(line), k){
                     // TODO Validate the values types
                     
@@ -60,5 +59,5 @@ tokenize :: proc(content: string) -> []Token {
     
     append(&tokens, Token{type = .EOF, line = len(lines), column = 1})
     //utils.norm_println(.INFOtokens)
-    return tokens[:]
+    return tokens
 }

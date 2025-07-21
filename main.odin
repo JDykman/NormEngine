@@ -64,6 +64,7 @@ NormEngine_memory_size :: proc() -> int {
 
 @(export)
 NormEngine_hot_reloaded :: proc(mem: rawptr) {
+    utils.norm_println(.DEBUG, "Hot Reloaded")
 	state = (^States)(mem)
 	// Here you can also set your own global variables. A good idea is to make
 	// your global variables into pointers that point to something inside `g`.
@@ -91,19 +92,17 @@ update :: proc(){
     input := strings.trim_space(string(buf[:n]))
     
     // Handle empty input
-    if len(input) == 0 {
-    }
+    if len(input) == 0 {return}
     
     // Split input into command and arguments
     args := strings.split(input, " ")
     defer delete(args)
     
-    if len(args) == 0 {
-    }
+    if len(args) == 0 {}
     
     command := args[0]
 
-    // Handle commands                utils.fire("bash", "-c", fmt.tprintf("cd %v && ./%v%v.exe", out_dir, EXE_NAME, exe_suffix))
+    // Handle commands
     switch command {
     case "exit", "quit":
         fmt.println("Goodbye!")
@@ -145,7 +144,7 @@ update :: proc(){
         clear_screen()
         
     case:
-        utils.norm_println(.WARNING, "Unknown command:", command)
+        utils.norm_println(.WARNING, "Unknown command: %v", command)
         utils.norm_println(.INFO, "Type 'help' for available commands")
     }
 }
@@ -156,21 +155,21 @@ init :: proc() {
 }
 
 show_help :: proc() {
-    utils.norm_println(.INFO, ":)")
-    fmt.println("Available commands:")
+    utils.norm_println(.INFO, "Available commands:")
     fmt.println("  build <file>     - Build a .norm file")
     fmt.println("  validate <file>  - Validate a .norm file")
-    fmt.println("  info            - Show system information")
-    fmt.println("  clear           - Clear the screen")
-    fmt.println("  help            - Show this help message")
-    fmt.println("  exit/quit       - Exit the program")
+    fmt.println("  info             - Show system information")
+    fmt.println("  clear            - Clear the screen")
+    fmt.println("  help             - Show this help message")
+    fmt.println("  exit/quit        - Exit the program")
 }
 
 show_info :: proc() {
     utils.norm_println(.INFO, "NormEngine CLI")
-    utils.norm_println(.INFO, "Platform:", core.PLATFORM)
-    utils.norm_println(.INFO, "Mode:", core.BUILD_MODE)
-    utils.norm_println(.INFO, "Supported extensions:", core.get_supported_extensions())
+    utils.norm_println(.INFO, "Platform: %v", core.PLATFORM)
+    utils.norm_println(.INFO, "Mode: %v", core.BUILD_MODE)
+    utils.norm_println(.INFO, "Supported import extensions: %v", core.get_import_supported_extensions())
+    utils.norm_println(.INFO, "Supported export extensions: %v", core.get_export_supported_extensions())
 }
 
 // Foreign import for system calls

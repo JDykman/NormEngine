@@ -30,14 +30,21 @@ Node_Type :: enum {
     COMMENT,
 }
 
-Keywords := []string {
-    "type",
-    "style",
-    "onClick",
+
+KeyWord :: enum { 
+    TYPE,
+    STYLE,
+    ONCLICK,
 }
 
-isKeyword :: proc(string_to_check: string) -> bool {
-	for i in Keywords{
+KeyWords := [KeyWord]string {
+    .TYPE = "type",
+    .STYLE = "style",
+    .ONCLICK = "onClick",
+}
+
+isKeyWord :: proc(string_to_check: string) -> bool {
+	for i in KeyWords{
         if(string_to_check == i){
             return true
         }
