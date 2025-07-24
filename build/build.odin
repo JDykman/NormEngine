@@ -175,23 +175,3 @@ main :: proc() {
 
     utils.norm_println(.INFO, "DONE in %v", time.diff(start_time, time.now()))
 }
-
-
-// value extraction example:
-/*
-target: Target
-found: bool
-for arg in os2.args {
-	if strings.starts_with(arg, "target:") {
-		target_string := strings.trim_left(arg, "target:")
-		value, ok := reflect.enum_from_name(Target, target_string)
-		if ok {
-			target = value
-			found = true
-			break
-		} else {
-			log.error("Unsupported target:", target_string)
-		}
-	}
-}
-*/

@@ -53,7 +53,7 @@ parse :: proc(tokens: [dynamic]Token) -> (^NodeRegistry, ^Node){
 			}            
             delete(split_raw_vals)
             delete(split_vals)
-            utils.norm_println(.INFO, "Appended Node: %v", c)
+            utils.norm_println(.DEBUG, "Appended Node: %v", c)
             continue
         }
         if token.type == .COMMENT {

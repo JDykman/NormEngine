@@ -1,5 +1,6 @@
 package NormEngineCore
 
+import "core:time"
 import "core:fmt"
 import "core:os"
 import "core:strings"
@@ -16,12 +17,21 @@ Build_Result :: struct {
     success: bool,
     output_path: string,
     error: string,
+    time: time.Duration,
 }
 
-build_file :: proc(filepath: string) -> Build_Result {
+Target :: enum {
+    HTML,
+    DebugAST,   
+}
+
+build_file :: proc(filepath: string, target: Target = .DebugAST) -> Build_Result {
+    start_time := time.now()
     utils.norm_println(.INFO, "Processing file:%v", filepath)
     filepath := filepath
     filepath = check_extension(filepath)
+    output_string: string
+    output_extension: string
     defer delete(filepath)
 
     if !os.exists(filepath) {
@@ -45,34 +55,48 @@ build_file :: proc(filepath: string) -> Build_Result {
     content_str := string(content)
     
     // 1. Tokenize
-    utils.norm_println(.INFO, "Tokenizing")
     tokens := tokenize(content_str)
     defer delete(tokens)
+    utils.norm_println(.INFO, "Tokenized in %v",time.diff(start_time, time.now()))
     
     // 2. Parse
-    utils.norm_println(.INFO, "Parsing")
     registry, root := parse(tokens) //TODO do something with the registry
     defer delete_registry(registry)
+    utils.norm_println(.INFO, "Parsed in %v",time.diff(start_time, time.now()))
 
     // 3. Generate output
     //TODO this will eventually need to be replaced so that it works dynamically for each supported language
-    utils.norm_println(.INFO, "Generating")
-    output := emit(root)
+    #partial switch target  {
+        case .DebugAST:
+            output_string = emit_ast_debug(root)
+            output_extension = ".ast.txt"
+            case:
+                return Build_Result{
+                    success = false,
+                    error = fmt.tprintf("Build target '%v' is not supported yet :(", target),
+                    time = time.diff(start_time, time.now()),
+                }
+    }
+    defer delete(output_string)
+            
+    utils.norm_println(.INFO, "Generated in %v",time.diff(start_time, time.now()))
     
     // Write output file
     output_path, _ := strings.replace(filepath, ".norm", ".gen.txt", -1)
     defer(delete(output_path))
-    write_ok := os.write_entire_file(output_path, transmute([]u8)output)
+    write_ok := os.write_entire_file(output_path, transmute([]u8)output_string)
     if !write_ok {
         return Build_Result{
             success = false,
             error = fmt.tprintf("\033[31mFailed to write output file\033[0m: %s", output_path),
+            time = time.diff(start_time, time.now()),
         }
     }
     
     return Build_Result{
         success = true,
         output_path = output_path,
+        time = time.diff(start_time, time.now()),
     }
 }
 
@@ -87,7 +111,6 @@ check_extension :: proc(_filepath: string) -> string{
         return strings.concatenate({_filepath, ".norm"})
     }
 }
-
 
 supported_import_extensions: []string = {".norm"}
 supported_export_extensions: []string = {"N/A"}

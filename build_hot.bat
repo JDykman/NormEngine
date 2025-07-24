@@ -9,6 +9,12 @@ set PDBS_DIR=%OUT_DIR%\NormEngine_pdbs
 
 set EXE=NormEngine_hot_reload.exe
 
+set "ODIN_DEFINES="
+if /i "%~1"=="debug" (
+    echo Enabling debug prints...
+    set "ODIN_DEFINES=-define:NORM_DEBUG=true"
+)
+
 :: Check if NormEngine is running
 FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% set NORM_ENGINE_RUNNING=true
 
@@ -47,7 +53,7 @@ echo %PDB_NUMBER% > %PDBS_DIR%\pdb_number
 :: Also note that we always write NormEngine.dll to the same file. NormEngine_hot_reload.exe
 :: monitors this file and does the hot reload when it changes.
 echo Building NormEngine.dll
-odin build . -strict-style -vet -debug -build-mode:dll -out:%OUT_DIR%/NormEngine.dll -pdb-name:%PDBS_DIR%\NormEngine_%PDB_NUMBER%.pdb > nul
+odin build . -strict-style -vet -debug -build-mode:dll -out:%OUT_DIR%/NormEngine.dll -pdb-name:%PDBS_DIR%\NormEngine_%PDB_NUMBER%.pdb %ODIN_DEFINES% > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 :: If NormEngine.exe already running: Then only compile NormEngine.dll and exit cleanly
@@ -57,7 +63,7 @@ if %NORM_ENGINE_RUNNING% == true (
 
 :: Build NormEngine.exe, which starts the program and loads NormEngine.dll och does the logic for hot reloading.
 echo Building %EXE%
-odin build main_NormEngine_hot -strict-style -vet -debug -out:%EXE% -pdb-name:%OUT_DIR%\main_hot_reload.pdb
+odin build main_NormEngine_hot -strict-style -vet -debug -out:%EXE% -pdb-name:%OUT_DIR%\main_hot_reload.pdb %ODIN_DEFINES%
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 set ODIN_PATH=

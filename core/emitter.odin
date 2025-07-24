@@ -6,7 +6,7 @@ import "core:strings"
 // emit is the main entry point for code generation.
 // It takes the root node of the AST and returns the generated output as a string.
 // The caller is responsible for deleting the returned string.
-emit :: proc(root_node: ^Node) -> string {
+emit_ast_debug :: proc(root_node: ^Node) -> string {
 	// A string builder is the most efficient way to construct the output.
 	builder := strings.builder_make()
 	defer strings.builder_destroy(&builder)

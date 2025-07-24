@@ -9,6 +9,11 @@ import "core/utils"
 
 States :: struct{
     runnning_cli: bool,
+    //Statistics : statistic,
+}
+
+statistic :: struct{
+    
 }
 
 state: ^States
@@ -17,7 +22,6 @@ state: ^States
 NormEngine_init :: proc() {
     fmt.println("Init")
 	state = new(States)
-
 	state^ = States {
 		runnning_cli = true,
 	}
@@ -120,9 +124,9 @@ update :: proc(){
         filepath := args[1]
         result := core.build_file(filepath)
         if result.success {
-            utils.norm_println(.INFO, "Build successful: %v", result.output_path)
+            utils.norm_println(.INFO, "Build successful after %v: %v",result.time, result.output_path)
         } else {
-            utils.norm_println(.ERROR, "Build failed: %v", result.error)
+            utils.norm_println(.ERROR, "Build failed after %v: %v", result.time, result.error)
         }
         
     case "validate":

@@ -24,6 +24,8 @@ import "core:fmt"
 import "core:log"
 import "core:unicode"
 
+NORM_DEBUG :: #config(NORM_DEBUG, false)
+
 // these are just shorthand defs
 Vec2 :: [2]f32
 Vec3 :: [3]f32
@@ -338,11 +340,20 @@ TEXT_BLUE   :: "\033[34m"
 TEXT_WHITE  :: "\033[0m "
 
 // args: ..any, sep := " ", flush := true
-norm_println :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true){
-	text_color : string
-	switch type{
+norm_println :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true) {
+	text_color: string
+	
+	switch type {
 	case .DEBUG:
-		text_color = TEXT_BLUE
+		// This entire block will only exist if you build with -define:NORM_DEBUG=true
+		when NORM_DEBUG {
+			text_color = TEXT_BLUE
+			fmt.printf("%v[norm]%v", text_color, TEXT_WHITE)
+			fmt.printfln(str, ..args)
+		}
+		// If not in debug mode, this case does nothing.
+		return // Exit early to avoid the generic print below.
+
 	case .INFO:
 		text_color = TEXT_GREEN
 	case .WARNING:
@@ -350,15 +361,25 @@ norm_println :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush 
 	case .ERROR:
 		text_color = TEXT_RED
 	}
-	fmt.printf("%v[norm]%v",text_color, TEXT_WHITE)
+
+	// This part handles INFO, WARNING, and ERROR
+	fmt.printf("%v[norm]%v", text_color, TEXT_WHITE)
 	fmt.printfln(str, ..args)
 }
 
-norm_print :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true){
-	text_color : string
-	switch type{
+// Apply the same logic to norm_print
+norm_print :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush := true) {
+	text_color: string
+
+	switch type {
 	case .DEBUG:
-		text_color = TEXT_BLUE
+		when NORM_DEBUG {
+			text_color = TEXT_BLUE
+			fmt.printf("%v[norm]%v", text_color, TEXT_WHITE)
+			fmt.printf(str, ..args)
+		}
+		return
+
 	case .INFO:
 		text_color = TEXT_GREEN
 	case .WARNING:
@@ -366,6 +387,7 @@ norm_print :: proc(type: Norm_Cli_Print_Type, str: string, args: ..any, flush :=
 	case .ERROR:
 		text_color = TEXT_RED
 	}
-	fmt.printf("%v[norm]%v",text_color, TEXT_WHITE)
+	
+	fmt.printf("%v[norm]%v", text_color, TEXT_WHITE)
 	fmt.printf(str, ..args)
 }
