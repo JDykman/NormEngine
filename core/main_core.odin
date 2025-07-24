@@ -20,7 +20,10 @@ Build_Result :: struct {
 
 build_file :: proc(filepath: string) -> Build_Result {
     utils.norm_println(.INFO, "Processing file:%v", filepath)
-    
+    filepath := filepath
+    filepath = check_extension(filepath)
+    defer delete(filepath)
+
     if !os.exists(filepath) {
         return Build_Result{
             success = false,
@@ -54,10 +57,10 @@ build_file :: proc(filepath: string) -> Build_Result {
     // 3. Generate output
     //TODO this will eventually need to be replaced so that it works dynamically for each supported language
     utils.norm_println(.INFO, "Generating")
-    output := emit(root^)
+    output := emit(root)
     
     // Write output file
-    output_path, _ := strings.replace(filepath, ".norm", ".generated", -1)
+    output_path, _ := strings.replace(filepath, ".norm", ".gen.txt", -1)
     defer(delete(output_path))
     write_ok := os.write_entire_file(output_path, transmute([]u8)output)
     if !write_ok {
@@ -74,9 +77,17 @@ build_file :: proc(filepath: string) -> Build_Result {
 }
 
 // Other core functions that both CLI and GUI might need
-validate_file :: proc(filepath: string) -> bool {
-    return strings.has_suffix(filepath, ".norm")
+validate_file :: proc(_filepath: string) -> bool {
+    return strings.has_suffix(_filepath, ".norm")
 }
+
+check_extension :: proc(_filepath: string) -> string{
+    if strings.has_suffix(_filepath, ".norm"){return strings.clone(_filepath)}
+    else{
+        return strings.concatenate({_filepath, ".norm"})
+    }
+}
+
 
 supported_import_extensions: []string = {".norm"}
 supported_export_extensions: []string = {"N/A"}

@@ -2,5 +2,5 @@ build/**
 NormEngine_hot_reload.exe
 NormEngine_hot_reload.bin
 NormEngine_hot_reload.bin.DSYM
-*.generated
+*.gen*
 linux/**

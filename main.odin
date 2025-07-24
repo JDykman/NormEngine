@@ -131,6 +131,8 @@ update :: proc(){
         }
         
         filepath := args[1]
+        filepath = core.check_extension(filepath)
+        defer delete(filepath)
         if core.validate_file(filepath) {
             utils.norm_println(.INFO, "File is valid: %v", filepath)
         } else {
