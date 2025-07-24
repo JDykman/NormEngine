@@ -16,11 +16,11 @@ Token :: struct {
     column: int,
 }
 
-AST_Node :: struct {
-    type: Node_Type,
-    name: string,
-    properties: map[string]string,
-    children: []AST_Node,
+Node :: struct {
+    name : string,
+    parent : ^Node,
+    children : [dynamic]^Node,
+    properties : [dynamic]Property,
 }
 
 Node_Type :: enum {
@@ -30,16 +30,12 @@ Node_Type :: enum {
     COMMENT,
 }
 
-Node :: struct {
-    name : string,
-    properties : [dynamic]Property,
-    parent : ^Node,
-}
+NodeRegistry :: struct {
+    // The flat map for O(1) lookups by name
+    by_name: map[string]^Node,
 
-Component :: struct {
-    name : string,
-    properties : [dynamic]Property,
-    parent : ^Component,
+    // A list of all top-level components (those without a parent)
+    roots:   [dynamic]^Node,
 }
 
 Style :: struct {
@@ -50,13 +46,13 @@ Style :: struct {
 
 Property :: struct {
     name : KeyWord,
-    value : any // TODO this should probably be replaced with something 
+    value : string, // TODO this should probably be replaced with something 
 }
 
 //Usage: if comp, ok := _mode.(^Component); ok{...}
 
 Identifier_Mode :: union {
-    ^Component,
+    ^Node,
     ^Style,
 }
 
