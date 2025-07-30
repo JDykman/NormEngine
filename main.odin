@@ -9,11 +9,6 @@ import "core/utils"
 
 States :: struct{
     runnning_cli: bool,
-    //Statistics : statistic,
-}
-
-statistic :: struct{
-    
 }
 
 state: ^States
@@ -111,7 +106,7 @@ update :: proc(){
     case "exit", "quit":
         fmt.println("Goodbye!")
         state.runnning_cli = false
-        return
+        
         
     case "help":
         show_help()

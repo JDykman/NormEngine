@@ -33,8 +33,7 @@ parse :: proc(tokens: [dynamic]Token) -> (^NodeRegistry, ^Node){
             node_name := split_vals[len(split_vals)-1]
             if len(split_vals) == 1 {
                 c, _ = add_node(registry, node_name, root)
-            }else {
-                // it's a sub component
+            }else { // it's a sub component
                 parent_name := split_vals[len(split_vals)-2]
 				// 1. Get the POINTER from the map. Add a check for safety.
 				if parent_node, ok := registry.by_name[parent_name]; ok {
@@ -44,7 +43,7 @@ parse :: proc(tokens: [dynamic]Token) -> (^NodeRegistry, ^Node){
 					utils.norm_println(.ERROR, "Parent node '%v' not found.", parent_name)
 					continue
 				}
-            } 
+            }
 			if len(commentAllocator) > 0 {
 				for comment in commentAllocator {
 					append(&c.properties, comment)

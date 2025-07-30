@@ -1,6 +1,6 @@
 package NormEngineCore
 
-Token_Type :: enum {
+Token_Type :: enum byte {
     IDENTIFIER,
     KEYWORD,
     OPERATOR,
@@ -23,7 +23,7 @@ Node :: struct {
     properties : [dynamic]Property,
 }
 
-Node_Type :: enum {
+Node_Type :: enum byte {
     ROOT,
     COMPONENT,
     PROPERTY,
@@ -56,7 +56,7 @@ Identifier_Mode :: union {
     ^Style,
 }
 
-KeyWord :: enum { 
+KeyWord :: enum byte { 
     TYPE,
     STYLE,
     ONCLICK,
